@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<title>My Example</title>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {
+
+  var e = document.getElementById("myForm");
+
+  e.addEventListener( "change", function() {
+  
+
+    var myColor = this.color.value;
+    
+    if (myColor == "Blue") {
+    
+      document.getElementById("msg").innerHTML = "Just like the sky!";
+        
+    }
+  
+  }, false);
+});
+</script>
+
+<!-- Replace '{action page}' with your own action page to support non-JavaScript users -->
+<form id="myForm" name="myForm" action="{action page}">
+  <label>
+    <input type="radio" name="color" value="Blue"> Blue
+  </label>
+  <label>
+    <input type="radio" name="color" value="Red"> Red
+  </label>
+  <label>
+    <input type="radio" name="color" value="Green"> Green
+  </label>
+</form>
+
+<p id="msg"></p>

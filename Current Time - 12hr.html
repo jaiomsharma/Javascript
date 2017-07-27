@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<title>My Example</title>
+
+
+<time id="time"></time>
+
+<script>
+  /* 
+  Create a JavaScript Date object for the current date and time,
+  then extract the desired parts, then join them again in the desired format.
+  */
+  var currentTime = new Date(),
+      hours = currentTime.getHours(),
+      minutes = currentTime.getMinutes();
+  
+  // Add a leading zero if needed
+  if (minutes < 10) {
+    minutes  = "0" + minutes; 
+  }
+
+  // Add suffix and adjust hours for 12hr time if required
+	var suffix = "AM";
+	if (hours >= 12) {
+    suffix = "PM";
+    hours = hours - 12;
+	}
+	if (hours == 0) {
+	 hours = 12;
+	}
+
+  // Join the parts
+  time = hours + ":" + minutes + " " + suffix;
+      
+  // Output the result to the above HTML element
+  document.getElementById("time").innerHTML = time;
+</script>

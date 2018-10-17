@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css?family=Lato:100,300,600" rel="stylesheet" type="text/css">
+        <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+        <link type="text/css" rel="stylesheet" href="style.css">
+        <link type="text/css" rel="stylesheet" href="normalize.css">
+
+
+        <title>Credit Card Form</title>
+    </head>
+    <body>
+        <div class="card-container">
+          <header>
+            <h1>Pay with Credit Card</h1>
+            <h2>Please enter the Credit Card<span id="title-cc-number" class="active"> Number</span>,<span id="title-cc-expiration-date">
+            expiration date </span> and <span id="title-cc-cvv">Security Code </span></h2>
+          </header>
+
+
+        <main>
+          <form action="" id="card-form" method="post">
+              <div class="input-feilds-container">
+                  <div class="cc-number-container">
+                    <label for="cc-number">Card Number *</label>
+                    <input type="text" id="cc-number" class="cc-input" />
+                  </div>
+                 <div id="cc-expiration-date-container">
+                   <label for="cc-expiration-date">Expiration Date *</label>
+                   <input type="text" id="cc-expiration-date" class="cc-input" />
+                 </div>
+                 <div id="cc-ccv-container">
+                   <label for="cc-cvv">Card Number *</label>
+                   <input type="text" id="cc-cvv" class="cc-input" />
+                 </div>
+              </div>
+              <a href="#" id="submit-payment" class="disabled">Make Payment</a>
+          </form>
+        </main>
+        <footer>
+          <p>
+            <em>*We only accept Visa, MasterCard and American Express</em>
+          </p>
+        </footer>
+      </div>
+
+
+
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.js"></script>
+      <script src="app.js"></script>
+      <script src="jquery.inputmask.bundle.min.js"></script>
+    </body>
+</html>

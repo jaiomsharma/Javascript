@@ -1,3 +1,45 @@
+// takes the form field value and returns true on valid number
+function valid_credit_card(value) {
+  // accept only digits, dashes or spaces
+	if (/[^0-9-\s]+/.test(value)) return false;
+
+	// The Luhn Algorithm. It's so pretty.
+	var nCheck = 0, nDigit = 0, bEven = false;
+	value = value.replace(/\D/g, "");
+
+	for (var n = value.length - 1; n >= 0; n--) {
+		var cDigit = value.charAt(n),
+			  nDigit = parseInt(cDigit, 10);
+
+		if (bEven) {
+			if ((nDigit *= 2) > 9) nDigit -= 9;
+		}
+
+		nCheck += nDigit;
+		bEven = !bEven;
+	}
+
+	return (nCheck % 10) == 0;
+}
+
+function validExpirationDate(date) {
+  var currentDate = new Date(),
+      currentMonth = currentDate.getMonth() + 1, //zero based index
+      currentYear = currentDate.getFullYear(),
+      expirationMonth = Number(date.substr(0,2)),
+      expirationYear = Number(date.substr(3,date.length));
+
+  if ((expirationYear < currentYear) || (expirationYear == currentYear && expirationMonth <= currentMonth)) {
+    return false;
+  }
+    return true;
+
+
+
+}
+
+
+
 $(function () {
   var number = $("#cc-number"),
   expDate = $("#cc-expiration-date"),
@@ -5,7 +47,8 @@ $(function () {
   payementButton = $("#submit-payment"),
   ccInputs = $(".cc-input"),
   timerInterval = 1000,
-  timer;
+  timer,
+  numberOK = false , expDateOK, cvvOK;
 
   //Set the mask
   number.inputmask("9999 9999 9999 9[999] [999]",{"placeholder":""});
@@ -53,12 +96,31 @@ ccInputs.blur(function () {
 
 
   function finishTyping(id,value) {
+    var  validationValue = value.replace(/ /g,'');
     switch (id) {
       case "cc-number":
-
+          if (validationValue.length > 0) {
+            numberOK = valid_credit_card(validationValue);
+          }
+          if (numberOK) {
+            number.removeClass('error');
+            expDate.focus();
+          }
+          else {
+            number.addClass('error');
+          }
         break;
       case "cc-expiration-date":
-
+          if (validationValue.indexOf("m") == -1 && validationValue.indexOf("y") == -1) {
+            expDate = validExpirationDate(validationValue);
+            if (expDateOK) {
+              expDate.removeClass('error');
+              cvv.focus();
+            }
+            else {
+              expDate.addClass('error');
+            }
+          }
           break;
       case "cc-cvv":
 

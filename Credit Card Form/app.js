@@ -3,7 +3,7 @@ function valid_credit_card(value) {
   // accept only digits, dashes or spaces
 	if (/[^0-9-\s]+/.test(value)) return false;
 
-	// The Luhn Algorithm. It's so pretty.
+	// The Luhn Algorithm.
 	var nCheck = 0, nDigit = 0, bEven = false;
 	value = value.replace(/\D/g, "");
 
@@ -38,7 +38,10 @@ function validExpirationDate(date) {
 
 }
 
-
+function validCVV(cvv) {
+	// The cvv must be atleast 3 digits
+	return cvv.length > 2;
+}
 
 $(function () {
   var number = $("#cc-number"),
@@ -48,7 +51,9 @@ $(function () {
   ccInputs = $(".cc-input"),
   timerInterval = 1000,
   timer,
-  numberOK = false , expDateOK, cvvOK;
+  numberOK = false ,
+	expDateOK = false,
+	cvvOK = false;
 
   //Set the mask
   number.inputmask("9999 9999 9999 9[999] [999]",{"placeholder":""});
@@ -102,6 +107,7 @@ ccInputs.blur(function () {
           if (validationValue.length > 0) {
             numberOK = valid_credit_card(validationValue);
           }
+					console.log(numberOK);
           if (numberOK) {
             number.removeClass('error');
             expDate.focus();
@@ -112,7 +118,7 @@ ccInputs.blur(function () {
         break;
       case "cc-expiration-date":
           if (validationValue.indexOf("m") == -1 && validationValue.indexOf("y") == -1) {
-            expDate = validExpirationDate(validationValue);
+            expDateOK = validExpirationDate(validationValue);
             if (expDateOK) {
               expDate.removeClass('error');
               cvv.focus();
@@ -123,10 +129,23 @@ ccInputs.blur(function () {
           }
           break;
       case "cc-cvv":
-
+							cvvOK = validCVV(validationValue);
+							if (cvvOK) {
+								cvv.removeClass("error");
+								payementButton.focus();
+							}
+							else {
+								cvv.addClass("error");
+							}
             break;
 
     }
   }
 
+			// Update the payment button status
+				if (numberOK && expDateOK && cvvOK) {
+					payementButton.removeClass("disabled");
+				}else {
+					payementButton.addClass("disabled");
+				}
 });

@@ -34,7 +34,23 @@ function validExpirationDate(date) {
   }
     return true;
 
+// Retrive the card issuing bank
+function getCardType(ccNumber){
+	//Define regular expression
 
+	var cardPatterns = {
+		visa: /^4[0-9]{12}(?:[0-9]{3})?$,
+		mastercard: /^5[1-5][0-9]{14}$/,
+		amex : /^3[47][0-9]{13}$/
+	};
+
+	for (var cardPattern in cardPatterns) {
+		if (cardPatterns[cardPattern].test(ccNumber)) {
+			return cardPattern;
+		}
+	}
+	return false;
+}
 
 }
 
@@ -101,11 +117,13 @@ ccInputs.blur(function () {
 
 
   function finishTyping(id,value) {
-    var  validationValue = value.replace(/ /g,'');
+    var  validationValue = value.replace(/ /g,''),
+		cardType = getCardType(validationValue),
+		cardClass = (cardType != false) ? "cc-" + cardType : "cc-generic";
     switch (id) {
       case "cc-number":
           if (validationValue.length > 0) {
-            numberOK = valid_credit_card(validationValue);
+            numberOK = valid_credit_card(validationValue) && getCardType(validationValue );
           }
 					console.log(numberOK);
           if (numberOK) {
@@ -115,6 +133,7 @@ ccInputs.blur(function () {
           else {
             number.addClass('error');
           }
+					number.parent().attr("class", cardClass);
         break;
       case "cc-expiration-date":
           if (validationValue.indexOf("m") == -1 && validationValue.indexOf("y") == -1) {
